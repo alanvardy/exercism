@@ -6,10 +6,11 @@ class Anagram
 
   def match(words)
     anagrams = []
-    words.each do |word|
-      next if word.downcase == @word
-      anagrams << word if word.downcase.chars.sort.join == @sorted
-    end
-    anagrams
+    # words.each do |word|
+    #   next if word.downcase == @word
+    #   anagrams << word if word.downcase.chars.sort.join == @sorted
+    # end
+    # anagrams
+    words.select { |word| word.downcase.chars.sort.join == @sorted && word.downcase != @word}
   end
 end
