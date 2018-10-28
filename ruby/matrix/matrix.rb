@@ -1,18 +1,17 @@
 class Matrix
-  attr_reader :lines
+  attr_reader :rows, :columns
   def initialize(sequence)
-    @lines = sequence.lines
+    @rows = to_rows(sequence)
+    @columns = @rows.transpose
   end
 
-  def rows
-    @lines.map(&:int_array)
+  private
+
+  def to_rows(sequence)
+    sequence.lines.map { |line| int_array(line) }
   end
 
-  def columns
-    rows.transpose
-  end
-
-  def int_array(string)
-    string.scan(/\d+/).map(&:to_i)
+  def int_array(line)
+    line.scan(/\d+/).map(&:to_i)
   end
 end
