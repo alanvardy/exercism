@@ -4,7 +4,7 @@ class Matrix
   end
 
   def rows
-    @sequence.split("\n").collect do |line|
+    @sequence.lines.map! do |line|
       line.scan(/\d+/).map!(&:to_i)
     end
   end
