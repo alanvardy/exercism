@@ -4,11 +4,11 @@ class Squares
   end
 
   def square_of_sum
-    square(sum)
+    num_array.sum**2
   end
 
   def sum_of_squares
-    sum(true)
+    num_array.sum { |value| value**2 }
   end
 
   def difference
@@ -17,13 +17,7 @@ class Squares
 
   private
 
-  def square(value, sqr = true)
-    sqr ? value * value : value
-  end
-
-  def sum(sqr = false, counter = 1, sum = 1)
-    return sum if counter == @integer
-    counter += 1
-    sum(sqr, counter, sum + square(counter, sqr))
+  def num_array
+    (1..@integer)
   end
 end
