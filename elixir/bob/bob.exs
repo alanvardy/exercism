@@ -1,25 +1,25 @@
 defmodule Bob do
   def hey(input) do
     cond do
-      Regex.match?(~r{[A-Z]!}, input) ->
+      String.match?(input, ~r{[A-Z]!}) ->
         "Whoa, chill out!"
 
-      Regex.match?(~r{[A-Z]\?}, input) ->
+      String.match?(input, ~r{[A-Z]\?}) ->
         "Calm down, I know what I'm doing!"
 
-      Regex.match?(~r{\?$}, input) ->
+      String.match?(input, ~r{\?$}) ->
         "Sure."
 
-      Regex.match?(~r{\?}, input) ->
+      String.match?(input, ~r{\?}) ->
         "Whatever."
 
-      Regex.match?(~r/[[:upper:]]{2,}/u, input) ->
+      String.match?(input, ~r/[[:upper:]]{2,}/u) ->
         "Whoa, chill out!"
 
-      Regex.match?(~r{!}, input) ->
+      String.match?(input, ~r{!}) ->
         "Whatever."
 
-      !Regex.match?(~r{\w}, input) ->
+      !String.match?(input, ~r{\w}) ->
         "Fine. Be that way!"
 
       true ->
