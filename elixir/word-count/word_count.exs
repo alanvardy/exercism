@@ -8,22 +8,7 @@ defmodule Words do
   def count(sentence) do
     sentence
     |> String.downcase()
-    |> scan()
-    |> List.flatten()
-    |> tally()
-  end
-
-  def tally(list, map \\ Map.new())
-
-  def tally([], map) do
-    map
-  end
-
-  def tally([head | tail], map) do
-    tally(tail, Map.update(map, head, 1, &(&1 + 1)))
-  end
-
-  def scan(sentence) do
-    Regex.scan(~r/[[:alnum:]-ö]+/, sentence)
+    |> String.split(~r/[^[:alnum:]-]/u, trim: true)
+    |> Enum.reduce(%{}, fn x, acc -> Map.update(acc, x, 1, &(&1 + 1)) end)
   end
 end
