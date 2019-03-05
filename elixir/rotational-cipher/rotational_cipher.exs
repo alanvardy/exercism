@@ -9,19 +9,37 @@ defmodule RotationalCipher do
   @spec rotate(text :: String.t(), shift :: integer) :: String.t()
   def rotate(text, shift) do
     text
-    |> String.split("")
+    |> String.to_charlist()
     |> rotate_letter(rem(shift, 26))
-    |> Enum.join()
+    |> List.to_string()
   end
 
-  def rotate_letter(list, shift, code \\ [])
-  def rotate_letter([], shift, code) do
-    code
+  defp rotate_letter([], _shift) do
+    []
   end
-  def rotate_letter([head | tail], shift, code) do
-    # if uppercase letter
-    
-    # if lowercase letter
 
+  defp rotate_letter([head | tail], shift) do
+    case head do
+      head when head in 97..122 ->
+        [
+          rem(head + shift - 97, 26) + 97
+          | rotate_letter(tail, shift)
+        ]
+
+      head when head in 65..90 ->
+        [
+          rem(head + shift - 65, 26) + 65
+          | rotate_letter(tail, shift)
+        ]
+
+      _ ->
+        [head | rotate_letter(tail, shift)]
+
+        # true ->
+        #   [
+        #     String.upcase(rem(String.downcase(head) + shift - 97, 26) + 97)
+        #     | rotate_letter(tail, shift)
+        #   ]
+    end
   end
 end
