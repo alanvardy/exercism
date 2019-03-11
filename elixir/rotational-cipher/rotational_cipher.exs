@@ -10,36 +10,20 @@ defmodule RotationalCipher do
   def rotate(text, shift) do
     text
     |> String.to_charlist()
-    |> rotate_letter(rem(shift, 26))
+    |> Enum.map(fn x -> rotate_letter(x, rem(shift, 26)) end)
     |> List.to_string()
   end
 
-  defp rotate_letter([], _shift) do
-    []
-  end
+  defp rotate_letter(letter, shift) do
+    letter
+    case letter do
+      letter when letter in 97..122 ->
+          rem(letter + shift - 97, 26) + 97
 
-  defp rotate_letter([head | tail], shift) do
-    case head do
-      head when head in 97..122 ->
-        [
-          rem(head + shift - 97, 26) + 97
-          | rotate_letter(tail, shift)
-        ]
+      letter when letter in 65..90 ->
+          rem(letter + shift - 65, 26) + 65
 
-      head when head in 65..90 ->
-        [
-          rem(head + shift - 65, 26) + 65
-          | rotate_letter(tail, shift)
-        ]
-
-      _ ->
-        [head | rotate_letter(tail, shift)]
-
-        # true ->
-        #   [
-        #     String.upcase(rem(String.downcase(head) + shift - 97, 26) + 97)
-        #     | rotate_letter(tail, shift)
-        #   ]
+      _ -> letter
     end
   end
 end
