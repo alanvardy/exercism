@@ -14,12 +14,30 @@ defmodule PigLatin do
   Some groups are treated like vowels, including "yt" and "xr".
   """
   @spec translate(phrase :: String.t()) :: String.t()
+
   def translate(phrase) do
+    phrase
+    |> String.split(" ")
+    |> Enum.map(fn x -> translate_word(x) end)
+    |> Enum.join(" ")
+  end
+
+
+  defp translate_word(word) do
+      ~r/(?<consonants>[x,y][^aeiou]\w+|^[^aeiou]qu|^qu|^[^aeiou]+)(?<remainder>\w*)/
+      |> Regex.named_captures(word)
+      |> transform(word)
+  end
+
+  defp transform(captures, word) do
     cond do
-      Regex.match?(~r/^[aeiou]/, phrase) -> phrase <> "ay"
-      Regex.match?(~r/^[^aeiou]{3}/, phrase) -> String.slice(phrase, 3..-1) <> String.slice(phrase, 0..2) <> "ay"
-      Regex.match?(~r/^[^aeiou]{2}/, phrase) -> String.slice(phrase, 2..-1) <> String.slice(phrase, 0..1) <> "ay"
-      true -> String.slice(phrase, 1..-1) <> String.slice(phrase, 0..0) <> "ay"
+      captures ->
+        Map.get(captures, "remainder") <>
+          Map.get(captures, "consonants") <>
+          "ay"
+
+      true ->
+        word <> "ay"
     end
   end
 end
