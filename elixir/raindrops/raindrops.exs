@@ -8,18 +8,29 @@ defmodule Raindrops do
   - If the number does not contain 3, 5, or 7 as a prime factor,
     just pass the number's digits straight through.
   """
+
+  @sounds %{
+    1 => "",
+    3 => "Pling",
+    5 => "Plang",
+    7 => "Plong"
+  }
+
   @spec convert(pos_integer) :: String.t()
-  def convert(number, sound \\ "")
   def convert(number) do
-    cond do
-      rem(number, 3) == 0 ->
-        convert(rem(number, 3), sound <> "Pling")
-      rem(number, 5) == 0 ->
-        convert(rem(number, 5), sound <> "Plang")
-      rem(number, 7) == 0 ->
-        convert(rem(number, 5), sound <> "Plong")
-      sound == "" -> Integer.to_string(number)
-      true -> sound
+    @sounds
+    |> Enum.filter(fn {x, y} -> rem(number, x) == 0 end)
+    |> Enum.map(fn {x, y} -> y end)
+    |> Enum.join()
+    |> check_for(number)
+  end
+
+  defp check_for(string, number) do
+    case string do
+      "" ->
+        Integer.to_string(number)
+      _ ->
+        string
     end
   end
 end
