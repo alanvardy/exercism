@@ -27,10 +27,8 @@ defmodule Raindrops do
 
   defp check_for(string, number) do
     case string do
-      "" ->
-        Integer.to_string(number)
-      _ ->
-        string
+      "" -> Integer.to_string(number)
+      _ -> string
     end
   end
 end
