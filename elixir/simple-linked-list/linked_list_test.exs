@@ -97,13 +97,13 @@ defmodule LinkedListTest do
     assert LinkedList.length(list) == 5
   end
 
-  @tag :pending
+  # @tag :pending
   test "from_list/1 of empty list" do
     list = LinkedList.from_list([])
     assert LinkedList.length(list) == 0
   end
 
-  @tag :pending
+  # @tag :pending
   test "from_list/1 of 2 element list" do
     list = LinkedList.from_list([:a, :b])
     assert LinkedList.length(list) == 2

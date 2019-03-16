@@ -78,7 +78,7 @@ defmodule LinkedList do
   def from_list(list, linked_list \\ {:head, nil})
   def from_list([], linked_list), do: linked_list
   def from_list([head | tail], linked_list) do
-    LinkedList.push(head)
+    from_list(tail, LinkedList.push(linked_list, head))
   end
 
   @doc """
