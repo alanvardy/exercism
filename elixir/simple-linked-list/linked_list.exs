@@ -76,7 +76,8 @@ defmodule LinkedList do
   """
   @spec from_list(list()) :: t
   def from_list(list, linked_list \\ {:head, nil})
-  def from_list([], linked_list), do: linked_list
+  def from_list([], {:head, nil}), do: {:head, nil}
+  def from_list([], linked_list), do: reverse(linked_list)
   def from_list([head | tail], linked_list) do
     from_list(tail, LinkedList.push(linked_list, head))
   end
@@ -86,14 +87,25 @@ defmodule LinkedList do
   """
   @spec to_list(t) :: list()
   def to_list(list) do
-    # Your implementation here...
+    case list do
+      {:head, nil} -> []
+      {:head, next_list} -> to_list(next_list)
+      {datum, nil} -> [datum]
+      {datum, next_list} -> [datum | to_list(next_list)]
+    end
   end
 
   @doc """
   Reverse a LinkedList
   """
   @spec reverse(t) :: t
-  def reverse(list) do
-    # Your implementation here...
+  def reverse(list, new_list \\ {:head, nil})
+  def reverse({datum, nil}, new_list), do: LinkedList.push(new_list, datum)
+  def reverse(list, new_list) do
+    case list do
+      {:head, nil} -> {:error, :empty_list}
+      {:head, tail} -> reverse(tail, new_list)
+      {datum, tail} -> reverse(tail, LinkedList.push(new_list, datum))
+    end
   end
 end
