@@ -10,7 +10,6 @@ defmodule Sublist do
       sublist?(b, a) -> :superlist
       true -> :unequal
     end
-
   end
 
   defp equal?([], []), do: true
@@ -23,25 +22,18 @@ defmodule Sublist do
     end
   end
 
-  # defp sublist?([], _), do: true
-  # defp sublist?(_, []), do: false
-  # defp sublist?([head1 | tail1], [head2 | tail2]) do
-  #   cond do
-  #     head1 === head2 -> sublist?(tail1, tail2)
-  #     true -> sublist?([head1 | tail1], tail2)
-  #   end
-  # end
-
   defp sublist?([], _), do: true
   defp sublist?(_, []), do: false
   defp sublist?(a, b) do
     b
+    |> permutations()
     |> Enum.map(fn x -> strict_match(a, x) end) #cant be each separate element
     |> Enum.any?()
-    # cond do
-    #   head1 === head2 -> sublist?(tail1, tail2)
-    #   true -> sublist?([head1 | tail1], tail2)
-    # end
+  end
+
+  defp permutations([]), do: []
+  defp permutations([head | tail]) do
+    [[head | tail] | permutations(tail)]
   end
 
   defp strict_match([], []), do: true
