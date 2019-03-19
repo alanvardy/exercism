@@ -61,7 +61,7 @@ defmodule ListOps do
   def concat([]), do: []
   def concat([x]), do: x
 
-  def concat([head1, head2 | tail]) do
-    concat([append(head1, head2) | tail])
+  def concat([head | tail]) do
+    head ++ concat(tail)
   end
 end
