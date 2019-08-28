@@ -14,26 +14,15 @@ defmodule Markdown do
   def parse(markdown) do
     markdown
     |> String.split("\n")
+    |> Enum.map(&String.split/1)
     |> Enum.map(&parse_line/1)
     |> Enum.join()
     |> to_list()
   end
 
-  defp parse_line(line) do
-    list = String.split(line)
-
-    case String.first(line) do
-      "#" ->
-        list
-        |> to_header()
-
-      "*" ->
-        to_list_item(list)
-
-      _ ->
-        to_paragraph(list)
-    end
-  end
+  defp parse_line(["#" <> _ | _] = line), do: to_header(line)
+  defp parse_line(["*" | _] = line), do: to_list_item(line)
+  defp parse_line(line), do: to_paragraph(line)
 
   defp to_header([head | tail]) do
     num =
