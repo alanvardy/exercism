@@ -14,10 +14,14 @@ defmodule Markdown do
   def parse(markdown) do
     markdown
     |> String.split("\n")
-    |> Enum.map(&String.split/1)
-    |> Enum.map(&parse_line/1)
-    |> Enum.join()
+    |> Enum.map_join(&process_line/1)
     |> to_list()
+  end
+
+  defp process_line(line) do
+    line
+    |> String.split()
+    |> parse_line()
   end
 
   defp parse_line(["#" <> _ | _] = line), do: to_header(line)
@@ -63,8 +67,8 @@ defmodule Markdown do
     |> String.replace(~r/_$/, "</em>")
   end
 
-  defp to_list(list) do
-    list
+  defp to_list(line) do
+    line
     |> String.replace("<li>", "<ul><li>", global: false)
     |> String.replace_suffix("</li>", "</li></ul>")
   end
